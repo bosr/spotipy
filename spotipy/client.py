@@ -198,7 +198,7 @@ class Spotify(object):
     def _warn(self, msg):
         print('warning:' + msg, file=sys.stderr)
 
-    def track(self, track_id):
+    def track(self, track_id, market=None):
         ''' returns a single track given the track's ID, URI or URL
 
             Parameters:
@@ -206,9 +206,9 @@ class Spotify(object):
         '''
 
         trid = self._get_id('track', track_id)
-        return self._get('tracks/' + trid)
+        return self._get('tracks/' + trid, market=market)
 
-    def tracks(self, tracks):
+    def tracks(self, tracks, market=None):
         ''' returns a list of tracks given a list of track IDs, URIs, or URLs
 
             Parameters:
@@ -216,7 +216,7 @@ class Spotify(object):
         '''
 
         tlist = [self._get_id('track', t) for t in tracks]
-        return self._get('tracks/?ids=' + ','.join(tlist))
+        return self._get('tracks/?ids=' + ','.join(tlist), market=market)
 
     def artist(self, artist_id):
         ''' returns a single artist given the artist's ID, URI or URL
@@ -507,7 +507,7 @@ class Spotify(object):
 
         '''
         return self._get('me/tracks', limit=limit, offset=offset)
-    
+
     def current_user_followed_artists(self, limit=20, after=None):
         ''' Gets a list of the artists followed by the current authorized user
 
